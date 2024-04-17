@@ -21,9 +21,9 @@ const findMutualFollowers= async(req,res)=>{
         const userName = req.params.username
         const response = await gitServices.findMutualFollowers(userName)
         if(!response){
-            res.status(404).json({message:"User Not Found"})
+            return res.status(404).json({message:"User Not Found"})
         }
-        res.status(200).json(response.friends)
+        return res.status(200).json(response.friends)
 
     }catch(e){
         res.status(500).json({message:e.message})

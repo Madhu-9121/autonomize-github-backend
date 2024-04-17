@@ -63,7 +63,8 @@ const userSchema = new mongoose.Schema({
         enum: ['created', 'updated', 'deleted']  
         },
         friends:[{
-            userName:String
+            userName:String,
+            image:String
         }]
 }, { timestamps: true });
 

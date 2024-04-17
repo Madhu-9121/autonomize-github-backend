@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const cors= require('cors')
 const mongoose = require('mongoose')
-const PORT = process.env.PORT ||3000
+const PORT = process.env.PORT || 8081
 const gitRoutes = require('./routes/gitRoutes')
 app.use(cors())
 app.use(express.json())

@@ -13,7 +13,7 @@ const getOrSaveUser = async (userName) => {
       console.log("Not-exist",userName);
       // creating new user
       const res = await axios.get(`https://api.github.com/users/${userName}`)
-      // console.log(res.data)
+      console.log(res.data)
       const userData = {
         userId: res.data.id,
         userName: res.data.login,
@@ -60,7 +60,7 @@ const findMutualFollowers = async (userName) => {
         // here login is similar to username from response 
         const exist = following.find((item) => item.login === user.login);
         if (exist) {
-          friends.push({userName:user.login});
+          friends.push({userName:user.login,image:user.avatar_url});
         }
       });
      
