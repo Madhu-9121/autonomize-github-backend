@@ -1,18 +1,23 @@
 const User = require("../models/User");
 const axios = require("axios");
+const token = process.env.API_TOKEN
 const getOrSaveUser = async (userName) => {
   try {
     // checking if user existed or not
     const existingUser = await User.findOne({ userName: userName });
 
     if (existingUser) {
-      console.log("exist");
+      // console.log("exist");
 
       return { user: existingUser, statusCode: 200 };
     } else {
-      console.log("Not-exist",userName);
+      // console.log("Not-exist",userName);
       // creating new user
-      const res = await axios.get(`https://api.github.com/users/${userName}`)
+      const res = await axios.get(`https://api.github.com/users/${userName}`,{
+        headers: {
+          Authorization: `token ${token}` 
+        }
+      })
       console.log(res.data)
       const userData = {
         userId: res.data.id,
@@ -45,16 +50,33 @@ const findMutualFollowers = async (userName) => {
     // find user
     const user = await User.findOne({ userName: userName });
     if (user) {
+      // const followersres = await axios.get(
+      //   `https://api.github.com/users/${userName}/followers`
+      // );
+      // const followingres = await axios.get(
+      //   `https://api.github.com/users/${userName}/following`
+      // );
       const followersres = await axios.get(
-        `https://api.github.com/users/${userName}/followers`
+        `https://api.github.com/users/${userName}/followers`,
+        {
+          headers: {
+            Authorization: `token ${token}` // Include your GitHub token here
+          }
+        }
       );
       const followingres = await axios.get(
-        `https://api.github.com/users/${userName}/following`
+        `https://api.github.com/users/${userName}/following`,
+        {
+          headers: {
+            Authorization: `token ${token}` // Include your GitHub token here
+          }
+        }
       );
+      // console.log(followersres)
       const friends = [];
       const followers = followersres.data
       const following = followingres.data
-      console.log(followers)
+      // console.log(followers)
       // filter friends
       followers.forEach((user) => {
         // here login is similar to username from response 
@@ -76,7 +98,7 @@ const findMutualFollowers = async (userName) => {
 
 const searchByParameters = async (query) => {
   try {
-    console.log(query)
+    // console.log(query)
     // finding by query
     const users = await User.find(query)
     // console.log(users)
@@ -123,7 +145,7 @@ const updateUser = async (data,userName) => {
     try {
         // console.log(sortBy,sortOrder)
         const list = await User.find().sort({[sortBy]:sortOrder}) 
-        console.log(list.length,list)
+        // console.log(list.length,list)
         return list
         
     } catch (e) {
