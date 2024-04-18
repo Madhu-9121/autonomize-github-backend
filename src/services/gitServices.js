@@ -6,12 +6,13 @@ const axios = require("axios");
 //     'X-GitHub-Api-Version': '2022-11-28'
 //   };
 const getOrSaveUser = async (userName) => {
+  console.log("called")
   try {
     // checking if user existed or not
     const existingUser = await User.findOne({ userName: userName });
 
     if (existingUser) {
-      // console.log("exist");
+      console.log("exist");
 
       return { user: existingUser, statusCode: 200 };
     } else {
@@ -21,7 +22,7 @@ const getOrSaveUser = async (userName) => {
       const limit = await fetch(`https://api.github.com/rate_limit`);
       const limitData = await limit.json()
       console.log("Rate limit data:", limitData);
-      // console.log(res.data)
+      console.log(res.data)
       const userData = {
         userId: res.data.id,
         userName: res.data.login,

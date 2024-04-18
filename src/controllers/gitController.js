@@ -2,9 +2,8 @@ const gitServices = require('../services/gitServices')
 
 const getOrSaveUser = async(req,res)=>{
     try{
-        // console.log("called cntrl")
+        console.log("called cntrl")
         const userName = req.params.username
-    
         const response = await gitServices.getOrSaveUser(userName)
         res.status(response.statusCode).json(response.user)
 
