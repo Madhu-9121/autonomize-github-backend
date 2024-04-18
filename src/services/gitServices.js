@@ -13,7 +13,7 @@ const getOrSaveUser = async (userName) => {
 
     if (existingUser) {
       console.log("exist");
-      const limit = await fetch(`https://api.github.com/rate_limit`,{headers})
+      const limit = await fetch(`https://api.github.com/rate_limit`)
       const limitData = await limit.json()
       console.log("Rate limit data:", limitData);
 
@@ -64,9 +64,9 @@ const findMutualFollowers = async (userName) => {
     if (user && user.friends.length ===0) {
       // console.log("not there")
       const followersres = await axios.get(
-        `https://api.github.com/users/${userName}/followers`);
+        `https://api.github.com/users/${userName}/followers`,{headers});
       const followingres = await axios.get(
-        `https://api.github.com/users/${userName}/following`);
+        `https://api.github.com/users/${userName}/following`,{headers});
       
       // console.log(followersres)
       const friends = [];
