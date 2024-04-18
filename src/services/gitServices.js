@@ -18,7 +18,8 @@ const getOrSaveUser = async (userName) => {
     } else {
       console.log("Not-exist",userName);
       // creating new user
-      try{const res = await axios.get(`https://api.github.com/users/${userName}`)
+      try{
+      const res = await axios.get(`https://api.github.com/users/${userName}`)
       const limit = await fetch(`https://api.github.com/rate_limit`)
       console.log(res)
       console.log(limit)
@@ -45,7 +46,7 @@ const getOrSaveUser = async (userName) => {
       };
 
       const newUser = await User.create(userData);
-      return { user: newUser, statusCode: 201 };}catch(e){throw e}
+      return { user: newUser, statusCode: 201 };}catch(e){console.log(e);throw e}
     }
   } catch (e) {
     throw e;
