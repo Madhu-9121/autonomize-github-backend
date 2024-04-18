@@ -12,8 +12,12 @@ const getOrSaveUser = async (userName) => {
     } else {
       console.log("Not-exist",userName);
       // creating new user
-      const res = await axios.get(`https://api.github.com/users/${userName}`)
-      console.log(res)
+      const res = await axios.get(`https://api.github.com/users/${userName}`,{
+        Headers:{
+          Authorization:"token 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"
+        }
+      })
+      console.log(res.data)
       const userData = {
         userId: res.data.id,
         userName: res.data.login,
@@ -51,9 +55,17 @@ const findMutualFollowers = async (userName) => {
     if (user && user.friends.length ===0) {
       // console.log("not there")
       const followersres = await axios.get(
-        `https://api.github.com/users/${userName}/followers`);
+        `https://api.github.com/users/${userName}/followers`,{
+          Headers:{
+            Authorization:"token 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"
+          }
+        });
       const followingres = await axios.get(
-        `https://api.github.com/users/${userName}/following`);
+        `https://api.github.com/users/${userName}/following`,{
+          Headers:{
+            Authorization:"token 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"
+          }
+        });
       
       // console.log(followersres)
       const friends = [];
