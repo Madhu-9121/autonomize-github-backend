@@ -1,10 +1,10 @@
 const User = require("../models/User");
 const axios = require("axios");
-const token = "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"
-const headers = {
-    'Authorization': `Bearer ${token}`,
-    'X-GitHub-Api-Version': '2022-11-28'
-  };
+// const token = "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"
+// const headers = {
+//     'Authorization': `Bearer ${token}`,
+//     'X-GitHub-Api-Version': '2022-11-28'
+//   };
 const getOrSaveUser = async (userName) => {
   console.log("called")
   try {
@@ -22,10 +22,10 @@ const getOrSaveUser = async (userName) => {
       console.log("Not-exist",userName);
       // creating new user
       try{
-      const limit = await fetch(`https://api.github.com/rate_limit`,{headers})
+      const limit = await fetch(`https://api.github.com/rate_limit`)
       const limitData = await limit.json()
       console.log("Rate limit data:", limitData);
-      const res = await axios.get(`https://api.github.com/users/${userName}`,{headers})
+      const res = await axios.get(`https://api.github.com/users/${userName}`)
       // console.log(res.data)
       const userData = {
         userId: res.data.id,
@@ -64,9 +64,9 @@ const findMutualFollowers = async (userName) => {
     if (user && user.friends.length ===0) {
       // console.log("not there")
       const followersres = await axios.get(
-        `https://api.github.com/users/${userName}/followers`,{headers});
+        `https://api.github.com/users/${userName}/followers`);
       const followingres = await axios.get(
-        `https://api.github.com/users/${userName}/following`,{headers});
+        `https://api.github.com/users/${userName}/following`);
       
       // console.log(followersres)
       const friends = [];
