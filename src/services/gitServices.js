@@ -1,6 +1,5 @@
 const User = require("../models/User");
 const axios = require("axios");
-const token = process.env.API_TOKEN
 const getOrSaveUser = async (userName) => {
   try {
     // checking if user existed or not
@@ -11,14 +10,10 @@ const getOrSaveUser = async (userName) => {
 
       return { user: existingUser, statusCode: 200 };
     } else {
-      // console.log("Not-exist",userName);
+      console.log("Not-exist",userName);
       // creating new user
-      const res = await axios.get(`https://api.github.com/users/${userName}`,{
-        headers: {
-          Authorization: `token ${token}` 
-        }
-      })
-      console.log(res.data)
+      const res = await axios.get(`https://api.github.com/users/${userName}`)
+      console.log(res)
       const userData = {
         userId: res.data.id,
         userName: res.data.login,
@@ -48,35 +43,24 @@ const getOrSaveUser = async (userName) => {
 const findMutualFollowers = async (userName) => {
   try {
     // find user
+ 
+
     const user = await User.findOne({ userName: userName });
-    if (user) {
-      // const followersres = await axios.get(
-      //   `https://api.github.com/users/${userName}/followers`
-      // );
-      // const followingres = await axios.get(
-      //   `https://api.github.com/users/${userName}/following`
-      // );
+     
+
+    if (user && user.friends.length ===0) {
+      // console.log("not there")
       const followersres = await axios.get(
-        `https://api.github.com/users/${userName}/followers`,
-        {
-          headers: {
-            Authorization: `token ${token}`
-          }
-        }
+        `https://api.github.com/users/${userName}/followers`
       );
       const followingres = await axios.get(
-        `https://api.github.com/users/${userName}/following`,
-        {
-          headers: {
-            Authorization: `token ${token}` // Include your GitHub token here
-          }
-        }
+        `https://api.github.com/users/${userName}/following`
       );
+      
       // console.log(followersres)
       const friends = [];
       const followers = followersres.data
       const following = followingres.data
-      // console.log(followers)
       // filter friends
       followers.forEach((user) => {
         // here login is similar to username from response 
@@ -85,11 +69,14 @@ const findMutualFollowers = async (userName) => {
           friends.push({userName:user.login,image:user.avatar_url});
         }
       });
-     
+      console.log(friends)
       user.friends = friends;
       await user.save();
 
       return user;
+    }else{
+      console.log("already there")
+      return user
     }
   } catch (e) {
     throw e;
