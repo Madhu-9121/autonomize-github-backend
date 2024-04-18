@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const axios = require("axios");
-const token = "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"
+const token = "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"
 const headers = {
     'Authorization': `Bearer ${token}`,
     'X-GitHub-Api-Version': '2022-11-28'
@@ -22,7 +22,7 @@ const getOrSaveUser = async (userName) => {
       console.log("Not-exist",userName);
       // creating new user
       try{
-      const limit = await fetch(`https://api.github.com/rate_limit`)
+      const limit = await fetch(`https://api.github.com/rate_limit`,{headers})
       const limitData = await limit.json()
       console.log("Rate limit data:", limitData);
       const res = await axios.get(`https://api.github.com/users/${userName}`,{headers})
