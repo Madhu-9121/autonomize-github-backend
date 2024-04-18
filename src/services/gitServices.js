@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const axios = require("axios");
-const token = process.env.API_TOKEN
+const token = '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'
+
 const getOrSaveUser = async (userName) => {
   try {
     // checking if user existed or not
