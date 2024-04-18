@@ -1,10 +1,10 @@
 const User = require("../models/User");
 const axios = require("axios");
-// const token = "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"
-// const headers = {
-//     'Authorization': `Bearer ${token}`,
-//     'X-GitHub-Api-Version': '2022-11-28'
-//   };
+const token = "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"
+const headers = {
+    'Authorization': `Bearer ${token}`,
+    'X-GitHub-Api-Version': '2022-11-28'
+  };
 const getOrSaveUser = async (userName) => {
   console.log("called")
   try {
@@ -13,7 +13,7 @@ const getOrSaveUser = async (userName) => {
 
     if (existingUser) {
       console.log("exist");
-      const limit = await fetch(`https://api.github.com/rate_limit`)
+      const limit = await fetch(`https://api.github.com/rate_limit`,{headers})
       const limitData = await limit.json()
       console.log("Rate limit data:", limitData);
 
@@ -25,7 +25,7 @@ const getOrSaveUser = async (userName) => {
       const limit = await fetch(`https://api.github.com/rate_limit`)
       const limitData = await limit.json()
       console.log("Rate limit data:", limitData);
-      const res = await axios.get(`https://api.github.com/users/${userName}`)
+      const res = await axios.get(`https://api.github.com/users/${userName}`,{headers})
       // console.log(res.data)
       const userData = {
         userId: res.data.id,
