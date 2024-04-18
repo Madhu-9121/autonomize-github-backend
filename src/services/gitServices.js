@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const axios = require("axios");
-const token = process.env.API_TOKEN
+const access = process.env.API_access
 const getOrSaveUser = async (userName) => {
   try {
     // checking if user existed or not
@@ -15,7 +15,7 @@ const getOrSaveUser = async (userName) => {
       // creating new user
       const res = await axios.get(`https://api.github.com/users/${userName}`,{
         headers: {
-          Authorization: `token ${token}` 
+          Authorization: `token ${access}` 
         }
       })
       console.log(res.data)
@@ -60,7 +60,7 @@ const findMutualFollowers = async (userName) => {
         `https://api.github.com/users/${userName}/followers`,
         {
           headers: {
-            Authorization: `token ${token}` // Include your GitHub token here
+            Authorization: `token ${access}`
           }
         }
       );
@@ -68,7 +68,7 @@ const findMutualFollowers = async (userName) => {
         `https://api.github.com/users/${userName}/following`,
         {
           headers: {
-            Authorization: `token ${token}` // Include your GitHub token here
+            Authorization: `token ${access}` 
           }
         }
       );
